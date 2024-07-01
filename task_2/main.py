@@ -1,16 +1,14 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
-# Підключення до локального MongoDB сервера або до MongoDB Atlas
+# Підключення до MongoDB Atlas
 client = MongoClient('mongodb+srv://test:test@cluster0.7fvb0f9.mongodb.net/')
 
-# Вибір бази даних
 db = client['cats_db']
 
-# Вибір колекції
 cats_collection = db['cats']
 
-# Функція для додавання нового кота
+# додавання нового кота
 def create_cat(name, age, features):
     cat = {
         "name": name,
@@ -20,13 +18,13 @@ def create_cat(name, age, features):
     cats_collection.insert_one(cat)
     print(f"Кот {name} успішно доданий!")
 
-# Функція для виведення всіх записів із колекції
+# виведення всіх записів із колекції
 def read_all_cats():
     cats = cats_collection.find()
     for cat in cats:
         print(cat)
 
-# Функція для виведення інформації про кота за ім'ям
+# виведення інформації про кота за ім'ям
 def read_cat_by_name(name):
     cat = cats_collection.find_one({"name": name})
     if cat:
@@ -34,7 +32,7 @@ def read_cat_by_name(name):
     else:
         print(f"Кота з ім'ям {name} не знайдено.")
 
-# Функція для оновлення віку кота за ім'ям
+# оновлення віку кота за ім'ям
 def update_cat_age(name, new_age):
     result = cats_collection.update_one({"name": name}, {"$set": {"age": new_age}})
     if result.matched_count > 0:
@@ -42,7 +40,7 @@ def update_cat_age(name, new_age):
     else:
         print(f"Кота з ім'ям {name} не знайдено.")
 
-# Функція для додавання нової характеристики до списку features кота за ім'ям
+# додавання нової характеристики до списку features кота за ім'ям
 def add_feature_to_cat(name, feature):
     result = cats_collection.update_one({"name": name}, {"$push": {"features": feature}})
     if result.matched_count > 0:
@@ -50,7 +48,7 @@ def add_feature_to_cat(name, feature):
     else:
         print(f"Кота з ім'ям {name} не знайдено.")
 
-# Функція для видалення запису з колекції за ім'ям тварини
+# видалення запису з колекції за ім'ям кота
 def delete_cat_by_name(name):
     result = cats_collection.delete_one({"name": name})
     if result.deleted_count > 0:
@@ -58,12 +56,12 @@ def delete_cat_by_name(name):
     else:
         print(f"Кота з ім'ям {name} не знайдено.")
 
-# Функція для видалення всіх записів із колекції
+# видалення всіх записів із колекції
 def delete_all_cats():
     result = cats_collection.delete_many({})
     print(f"Всі коти успішно видалені. Видалено записів: {result.deleted_count}")
 
-# Основна функція для демонстрації роботи
+# демонстрація роботи
 def main():
     while True:
         print("\nВиберіть дію:")
