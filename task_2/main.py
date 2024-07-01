@@ -16,7 +16,7 @@ def create_cat(name, age, features):
         "features": features
     }
     cats_collection.insert_one(cat)
-    print(f"Кот {name} успішно доданий!")
+    print(f"Кiт {name} успішно доданий!")
 
 # виведення всіх записів із колекції
 def read_all_cats():
